@@ -1,7 +1,7 @@
 // get data from data.js
 var tableData = data;
 
-// populate date filter dropdown
+// populate filter dropdown
 filterKeys=["datetime","city","state","country","shape"];
 for (var i of filterKeys) {
     eval("var filterKey=tableData.map(thisdata => thisdata."+i+")");
@@ -12,9 +12,13 @@ for (var i of filterKeys) {
         }
         if (!(valueUnique.includes(value))) {
             valueUnique.push(value);
-            eval(`d3.select("#`+i+`").append("option").text(value);`);
         }
-    });  
+    });
+    // sort alphabetically before adding to filter dropdown
+    if (!(i==="datetime")) {valueUnique=valueUnique.sort()}; 
+    for (value of valueUnique) {
+        eval(`d3.select("#`+i+`").append("option").text(value);`);
+    }
 };
 
 // select filter button and form
